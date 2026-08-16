@@ -1,0 +1,20 @@
+[
+    {
+        "Patient ID": "PT1",
+        "Category": "Inpatient",
+        "First Name": "John",
+        "Gender": "M",
+        "Last Name": "Van den berg",
+        "Medical Condition": "Hemriods",
+        "Age": 18
+    },
+    {
+        "Patient ID": "PT2",
+        "Category": "Emergency",
+        "First Name": "Matthew",
+        "Gender": "M",
+        "Last Name": "Johnstone",
+        "Medical Condition": "Heart Failure",
+        "Age": 19
+    }
+]
