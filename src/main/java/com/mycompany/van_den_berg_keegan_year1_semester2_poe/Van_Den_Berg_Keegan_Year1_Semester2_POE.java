@@ -16,6 +16,7 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
         Scanner scanner = new Scanner(System.in);
         Patients patients = new Patients();
         Beds beds = new Beds();
+       
         
         boolean running = true;
         while (running){
@@ -30,26 +31,36 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                     + "\n[4] Delete A Patient"
                     + "\n[5] Display All Registered Patients"
                     + "\n[6] Bed Management"
-                    + "\n[7] Exit");
+                    + "\n[7] View Reports"
+                    + "\n[8] Exit");
         
             int choice = scanner.nextInt();
             scanner.nextLine();
+            
+            
         
             switch(choice){
                 case 1:
+                    String newPatientID = "";
+                    String newFirstName = "";
+                    String newLastName = "";
+                    int newAge = 0;
+                    String newGender = "";
+                    String newCondition = "";
+                    Patients.Category newCategory = null;
+                    
                     System.out.println("=========================================");
                     System.out.println("========NEW PATIENT REGISTRATION=========");
                     System.out.println("=========================================");
                 
                     //Patient ID
                     boolean patientIDValid = false;
-                    String patientID = "";
                     while (patientIDValid == false){
                         System.out.println("\nPatient ID: ");
-                        patientID = scanner.nextLine();
-                        if (patients.ValidatePatientID(patientID) == false){
+                        newPatientID = scanner.nextLine();
+                        if (newPatientID.matches("PT\\d{2}") == false){
                             System.out.println("Error: Patient ID already exists");
-                        } else if (patientID.isEmpty() == true){
+                        } else if (newPatientID.isEmpty() == true){
                             System.out.println("Error: Field cannot be empty");
                         } else {
                             patientIDValid = true;
@@ -59,11 +70,10 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                 
                     //First Name
                     boolean firstNameValid = false;
-                    String firstName = "";
                     while (firstNameValid == false){
                         System.out.println("First name: ");
-                        firstName = scanner.nextLine();
-                        if (firstName.isEmpty() == true){
+                        newFirstName = scanner.nextLine();
+                        if (newFirstName.isEmpty() == true){
                             System.out.println("Error: Field cannot be empty");
                         } else {
                             firstNameValid = true;
@@ -73,11 +83,10 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                 
                     //Last Name
                     boolean lastNameValid = false;
-                    String lastName = "";
                     while (lastNameValid == false){
                         System.out.println("Last name: ");
-                        lastName = scanner.nextLine();
-                        if (lastName.isEmpty() == true){
+                        newLastName = scanner.nextLine();
+                        if (newLastName.isEmpty() == true){
                             System.out.println("Error: Field cannot be empty");
                         } else {
                             lastNameValid = true;
@@ -86,12 +95,11 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                 
                     //Age
                     boolean ageValid = false;
-                    int age = 0;
                     while (ageValid == false){
                         System.out.println("Age: ");
-                        age = scanner.nextInt();
+                        newAge = scanner.nextInt();
                         scanner.nextLine();
-                        if (age == 0 || age > 110){
+                        if (newAge <= 0 || newAge > 110){
                             System.out.println("Error: Age is not valid");
                         } else {
                             ageValid = true;
@@ -101,13 +109,12 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                 
                     //Gender
                     boolean genderValid = false;
-                    String gender = "";
                     while (genderValid == false){
                         System.out.println("Gender (M/F): ");
-                        gender = scanner.nextLine();
-                        if (!gender.equals("M") && !gender.equals("F")){
+                        newGender = scanner.nextLine();
+                        if (!newGender.equals("M") && !newGender.equals("F")){
                             System.out.println("Error: Please enter either M or F");
-                        } else if (gender.isEmpty()){
+                        } else if (newGender.isEmpty()){
                             System.out.println("Error: Field cannot be empty");    
                         } else {
                             genderValid = true;
@@ -117,11 +124,10 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                 
                     //Condition
                     boolean conditionValid = false;
-                    String condition = "";
                     while (conditionValid == false){
                         System.out.println("Medical condition: ");
-                        condition = scanner.nextLine();
-                        if (condition.isEmpty()){
+                        newCondition = scanner.nextLine();
+                        if (newCondition.isEmpty()){
                             System.out.println("Error: Field cannot be empty");    
                         } else {
                             conditionValid = true;
@@ -131,21 +137,26 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                 
                     //Category
                     boolean categoryValid = false;
-                    String category = "";
-                    while (categoryValid == false){
+                    newCategory = null;
+                    while (newCategory == null){
                         System.out.println("Category: ");
-                        category = scanner.nextLine();
-                        if (!category.equals("Inpatient") && !category.equals("Outpatient") && !category.equals("Emergency")){
-                            System.out.println("Error: Category is not valid");
-                        } else if (category.isEmpty()){
-                            System.out.println("Error: Field cannot be empty");
-                        } else {
+                        String categoryInput = scanner.nextLine();
+                        try {
+                            newCategory = Patients.Category.valueOf(categoryInput.toUpperCase()); 
                             categoryValid = true;
+                           
+                           
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error: Category is not valid");
                         }
                     }
-                
+                    
+                    // if all the user inputs are valid, the patient will be registered
                     if (patientIDValid && firstNameValid && lastNameValid && ageValid && genderValid && conditionValid && categoryValid){
-                        System.out.println(patients.NewPatient(patientID, firstName, lastName, age, gender, condition, category));
+                        Patients newPatient = new Patients(newPatientID, newFirstName, newLastName,
+                                            newAge, newGender, newCondition, newCategory);
+                        System.out.println(newPatient.NewPatient(newPatientID, newFirstName, 
+                                newLastName, newAge, newGender, newCondition, newCategory));
                     }
                     break;
                 case 2:
@@ -225,32 +236,145 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                     scanner.nextLine();
                 
                     switch (bedChoice){
+                        /**
+                         * ALLOCATE BED
+                         */
                         case 1:
-                            System.out.println(beds.ShowOpenBeds());
-                            System.out.println("Please enter the bed number you would like to allocate a "
-                                + "patient to: ");
-                            String bedNumber = scanner.nextLine();
-                            if (beds.CheckBed(bedNumber) == false){
-                                System.out.println("Error! Bed already taken");
+                            //Prevents user from assigning a bed when there are no beds available
+                            boolean noSpace = false;
+                            if (beds.CheckForOpenBeds() == 20){
+                                noSpace = true;
                             } else {
-                                System.out.println("What is the patient number: ");
-                                String PatientNo = scanner.nextLine();
-                                beds.AssignBed(bedNumber, PatientNo);
+                                noSpace = false;
+                            }
+                            if (noSpace == false){
                                 System.out.println(beds.ShowOpenBeds());
+                                System.out.println("Please enter the bed number you would like to allocate a "
+                                    + "patient to: ");
+                                String bedNumber = scanner.nextLine();
+                                if (beds.CheckBed(bedNumber) == false){
+                                    System.out.println("Error! Bed already taken");
+                                } else {
+                                    System.out.println("What is the patient number: ");
+                                    String PatientNo = scanner.nextLine();
+                                    beds.AssignBed(bedNumber, PatientNo);
+                                    System.out.println(beds.ShowAllBeds());
+                                }
+                            } else {
+                                System.out.println("Error! There is no open beds");
+                            }
+                            
+                            break;
+                            
+                        /**
+                         * RELEASE BEDS
+                         */
+                        case 2:
+                            System.out.println(beds.ShowAllBeds());
+                            System.out.println("Please enter the patient number of the bed you "
+                                    + "would like to release: ");
+                            String releasePatientNo = scanner.nextLine();
+                            if (releasePatientNo.matches("PT\\d{2}")){
+                                System.out.println(beds.ReleaseBed(releasePatientNo));
+                            } else {
+                                System.out.println("Error! Patient number is incorrectly formatted");
                             }
                             break;
-                        case 2:
-                            break;
+                            
+                        /**
+                         * VIEW WARD LAYOUT
+                         */
                         case 3:
+                            System.out.println(beds.ShowAllBeds());
                             break;
+                            
+                        /**
+                         * SHOW AVAILABLE BEDS
+                         */
                         case 4:
+                            System.out.println(beds.ShowOpenBeds());
                             break;
+                            
+                        /**
+                         * SHOW TAKEN BEDS
+                         */
                         case 5:
+                            System.out.println(beds.ShowTakenBeds());
+                            break;
+                        default:
+                            System.out.println("Error! Please pick from one of the provided options");
                             break;
                     }
                         
                     break;
                 case 7:
+                    System.out.println("=========================================");
+                    System.out.println("=================REPORTS=================");
+                    System.out.println("=========================================");
+                    System.out.println("Which report would you like: "
+                            + "\n[1] All Reqistered Patients"
+                            + "\n[2] All Available Beds"
+                            + "\n[3] All Occupied Beds"
+                            + "\n[4] The Total Number of Registered Patients"
+                            + "\n[5] The Total Number of Occupied Beds"
+                            + "\n[6] The Ward Occupancy Percentage");
+                    
+                    int reportChoice = scanner.nextInt();
+                    scanner.nextLine();
+                    
+                    switch(reportChoice){
+                        /**
+                         * ALL REGISTERED PATIENTS
+                         */
+                        case 1:
+                            System.out.println(patients.DisplayAllPatients());
+                            break;
+                            
+                        /**
+                         * ALL AVAILABLE BEDS
+                         */
+                        case 2:
+                            System.out.println(beds.ShowOpenBeds());
+                            break;
+                            
+                        /**
+                         * ALL OCCUPIED BEDS
+                         */
+                        case 3:
+                            System.out.println(beds.ShowTakenBeds());
+                            break;
+                            
+                        /**
+                         * TOTAL PATIENTS
+                         */
+                        case 4:
+                            System.out.println("There is a total of " + patients.GetPatientCount() + ""
+                                    + " patients.");
+                            break;
+                            
+                        /**
+                         * TOTAL OCCUPIED BEDS
+                         */
+                        case 5:
+                            System.out.println("There is a total of " + beds.CheckForOpenBeds() + ""
+                                    + " taken beds");
+                            break;
+                            
+                        /**
+                         * WARD OCCUPANCY PERCENTAGE
+                         */
+                        case 6:
+                            int occupied = beds.CheckForOpenBeds();
+                            double wardPercentage = ((double) occupied / 20) * 100;
+                            System.out.println("The ward is " + wardPercentage + "%"
+                                    + " full");
+                            break;
+                        default:
+                            System.out.println("Error! Please pick from one of the provided options");
+                            break;
+                    }
+                    break;
+                case 8:
                     running = false;
                     break;
                 default:

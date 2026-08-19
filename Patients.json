@@ -16,5 +16,41 @@
         "Last Name": "Johnstone",
         "Medical Condition": "Heart Failure",
         "Age": 19
+    },
+    {
+        "Patient ID": "PT03",
+        "Category": "Inpatient",
+        "First Name": "John",
+        "Gender": "M",
+        "Last Name": "Doe",
+        "Medical Condition": "Cancer",
+        "Age": 46
+    },
+    {
+        "Patient ID": "PT04",
+        "Category": "INPATIENT",
+        "First Name": "Jane",
+        "Gender": "F",
+        "Last Name": "Doe",
+        "Medical Condition": "Astma",
+        "Age": 34
+    },
+    {
+        "Patient ID": "PT05",
+        "Category": "INPATIENT",
+        "First Name": "Jane",
+        "Gender": "F",
+        "Last Name": "Doe",
+        "Medical Condition": "cancer",
+        "Age": 20
+    },
+    {
+        "Patient ID": "PT06",
+        "Category": "INPATIENT",
+        "First Name": "Mary",
+        "Gender": "F",
+        "Last Name": "Jane",
+        "Medical Condition": "Vomiting",
+        "Age": 36
     }
 ]

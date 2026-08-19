@@ -30,7 +30,35 @@ public class Beds {
             for (int j = 0; j < takenBeds[i].length; j++) {
                 if (takenBeds[i][j].equals("O")) {
                     message += allBeds[i][j] + "\t";
+                }else {
+                    message += "---\t";
                 }
+            }
+            message += "\n";
+        }
+        return message;
+    }
+    
+    public String ShowTakenBeds(){
+        String message = "";
+        for (int i = 0; i < takenBeds.length; i++) {
+            for (int j = 0; j < takenBeds[i].length; j++) {
+                if (takenBeds[i][j].equals("T")) {
+                    message += allBeds[i][j] + "\t";
+                }else {
+                    message += "---\t";
+                }
+            }
+            message += "\n";
+        }
+        return message;
+    }
+    
+    public String ShowAllBeds(){
+        String message = "";
+        for (int i = 0; i < allBeds.length; i++) {
+            for (int j = 0; j < allBeds[i].length; j++) {
+                message += allBeds[i][j] + "\t";
             }
             message += "\n";
         }
@@ -70,5 +98,34 @@ public class Beds {
             }
         }
         return false;
+    }
+    
+    public String ReleaseBed(String patientNumber){
+        for (int i = 0; i < allBeds.length; i++){
+            for (int j = 0; j < allBeds[i].length; j++){
+                if (allBeds[i][j].equals(patientNumber)){
+                    takenBeds[i][j] = "O";
+                    int bedNumber = (i * 5) + j + 1;
+                    allBeds[i][j] = String.format("B%02d", bedNumber);
+                    return "Bed has been released";
+                }
+            }
+        }
+    
+        return "Error! Patient not found";
+    }
+    
+    public int CheckForOpenBeds(){
+        int openBedCount = 0;
+        boolean noSpace = false;
+        for (int i = 0; i < takenBeds.length; i++){
+            for (int j = 0; j < takenBeds[i].length; j++){
+                if (takenBeds[i][j].equals("T")){
+                    openBedCount++;
+                }
+            }
+        }
+        
+        return openBedCount;
     }
 }

@@ -18,8 +18,37 @@ import java.io.FileWriter;
 import java.io.IOException;
 public class Patients {
     
-    public String NewPatient(String PatientID, String FirstName, 
-    String LastName, int Age, String Gender, String Condition, String Category){
+    public enum Category{
+        INPATIENT,
+        OUTPATIENT,
+        EMERGENCY
+    }
+    
+    protected String patientID;
+    protected String firstName;
+    protected String lastName;
+    protected int age;
+    protected String gender;
+    protected String condition;
+    protected Category category;
+    
+    public Patients(){
+        
+    }
+    public Patients(String patientID, String firstName, 
+            String lastName, int age, String gender, String condition, Category category){
+        this.patientID = patientID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.gender = gender;
+        this.condition = condition;
+        this.category = category;
+    }
+    
+    
+    public String NewPatient(String patientID, String firstName, 
+    String lastName, int age, String gender, String condition, Category category){
         try{
             Path path = Path.of("Patients.json");
             
@@ -28,13 +57,15 @@ public class Patients {
             
             JSONObject patient = new JSONObject();
             
-            patient.put("Patient ID", PatientID);
-            patient.put("First Name", FirstName);
-            patient.put("Last Name", LastName);
-            patient.put("Age", Age);
-            patient.put("Gender", Gender);
-            patient.put("Medical Condition", Condition);
-            patient.put("Category", Category);
+            patient.put("Patient ID", patientID);
+            patient.put("First Name", firstName);
+            patient.put("Last Name", lastName);
+            patient.put("Age", age);
+            patient.put("Gender", gender);
+            patient.put("Medical Condition", condition);
+            patient.put("Category", category);
+            
+            
             
             patients.put(patient);
             Files.writeString(path, patients.toString(4));
@@ -44,7 +75,7 @@ public class Patients {
         return("Patient Successfully captured");
     }
     
-    public boolean ValidatePatientID(String PatientID){
+    public boolean ValidatePatientID(String validatePatientID){
         boolean valid = false;
         try{
             Path path = Path.of("Patients.json");
@@ -54,12 +85,9 @@ public class Patients {
             
             for (int i = 0; i < patients.length(); i++){
                 JSONObject obj = patients.getJSONObject(i);
-                
-                
-                
                 String filePatientID = obj.getString("Patient ID");
                 
-                if(filePatientID.equals(PatientID)){
+                if(filePatientID.equals(validatePatientID)){
                     return false;
                 }
             }
@@ -71,7 +99,7 @@ public class Patients {
         return true;
     }
     
-    public String PatientSearch(String patientID){
+    public String PatientSearch(String SearchPatientID){
         boolean found = false;
         String report = "";
         try{
@@ -87,7 +115,7 @@ public class Patients {
                 
                 String filePatientID = obj.getString("Patient ID");
                 
-                if(filePatientID.equals(patientID)){
+                if(filePatientID.equals(SearchPatientID)){
                     found = true;
                     String fileFirstName = obj.getString("First Name");
                     String fileLastName = obj.getString("Last Name");
@@ -116,7 +144,7 @@ public class Patients {
         }  
     }
     
-    public String UpdateDetails(String PatientID, String Key, String Value){
+    public String UpdateDetails(String UpdatePatientID, String Key, String Value){
         try{
             Path path = Path.of("Patients.json");
             String content = Files.readString(path);
@@ -128,7 +156,7 @@ public class Patients {
                 
                 String filePatientID = obj.getString("Patient ID");
                 
-                if(filePatientID.equals(PatientID)){
+                if(filePatientID.equals(UpdatePatientID)){
                     obj.put(Key, Value);
                     Files.writeString(path, patients.toString(4));
                     
@@ -145,7 +173,7 @@ public class Patients {
         
     }
     
-    public String DeletePatient(String patientID){
+    public String DeletePatient(String DeletePatientID){
         try{
             Path path = Path.of("Patients.json");
             String content = Files.readString(path);
@@ -157,7 +185,7 @@ public class Patients {
                 
                 String filePatientID = obj.getString("Patient ID");
                 
-                if(filePatientID.equals(patientID)){
+                if(filePatientID.equals(DeletePatientID)){
                     patients.remove(i);
                     Files.writeString(path, patients.toString(4));
                     return("Patient successfully deleted");
@@ -182,13 +210,13 @@ public class Patients {
             for (int i = 0; i < patients.length(); i++){
                 JSONObject obj = patients.getJSONObject(i);
                 
+                report += "\n\n";
                 report += "Patient ID: " + obj.getString("Patient ID");
                 report += "\nPatient Name: " + obj.getString("First Name") + " " + obj.getString("Last Name");
                 report += "\nPatient Age: " + obj.getInt("Age");
                 report += "\nPatient Gender: " + obj.getString("Gender");
                 report += "\nPatient Condition: " + obj.getString("Medical Condition");
                 report += "\nPatient Category: " + obj.getString("Category");
-                report += "\n\n";
             }
             
             return report;
@@ -197,6 +225,20 @@ public class Patients {
             return "Error: Could not read Patients.json";
         }
         
+    }
+    
+    public int GetPatientCount(){
+        try{
+            Path path = Path.of("Patients.json");
+            String content = Files.readString(path);
+
+            JSONArray patients = new JSONArray(content);
+
+            return patients.length();
+
+        } catch (IOException e){
+            return 0;
+        }
     }
             
 }
