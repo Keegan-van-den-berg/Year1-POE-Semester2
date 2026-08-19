@@ -37,7 +37,7 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
             int choice = scanner.nextInt();
             scanner.nextLine();
             
-            
+            String newReport = "";
         
             switch(choice){
                 case 1:
@@ -48,6 +48,8 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                     String newGender = "";
                     String newCondition = "";
                     Patients.Category newCategory = null;
+                    String newWardNumber = "";
+                    String newBedNumber = "";
                     
                     System.out.println("=========================================");
                     System.out.println("========NEW PATIENT REGISTRATION=========");
@@ -58,10 +60,15 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                     while (patientIDValid == false){
                         System.out.println("\nPatient ID: ");
                         newPatientID = scanner.nextLine();
-                        if (newPatientID.matches("PT\\d{2}") == false){
-                            System.out.println("Error: Patient ID already exists");
-                        } else if (newPatientID.isEmpty() == true){
+                        if (newPatientID.isEmpty()) {
                             System.out.println("Error: Field cannot be empty");
+
+                        } else if (!newPatientID.matches("PT\\d{2}")) {
+                            System.out.println("Error: Patient ID must be in the format PT00");
+
+                        } else if (!patients.ValidatePatientID(newPatientID)) {
+                            System.out.println("Error: Patient ID already exists");
+
                         } else {
                             patientIDValid = true;
                         }
@@ -144,6 +151,23 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                         try {
                             newCategory = Patients.Category.valueOf(categoryInput.toUpperCase()); 
                             categoryValid = true;
+                            if (newCategory == Patients.Category.INPATIENT){
+                                System.out.println("What ward must the patient be placed in: ");
+                                newWardNumber = scanner.nextLine();
+                                if (newWardNumber.matches("W\\d{2}")){
+                                    System.out.println(beds.ShowOpenBeds());
+                                    System.out.println("What bed should the patient be assigned to:");
+                                    newBedNumber = scanner.nextLine();
+                                    if (newBedNumber.matches("B\\d{2}") && beds.CheckBed(newBedNumber) == true){
+                                        beds.AssignBed(newBedNumber, newPatientID);
+                                    } else {
+                                        System.out.println("Error! Bed number incorrectly formatted "
+                                            + "or bed is already occupied");
+                                    } 
+                                } else {
+                                    System.out.println("Error! Ward number incorrectly formatted");
+                                }
+                            }
                            
                            
                         } catch (IllegalArgumentException e) {
@@ -152,11 +176,22 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                     }
                     
                     // if all the user inputs are valid, the patient will be registered
-                    if (patientIDValid && firstNameValid && lastNameValid && ageValid && genderValid && conditionValid && categoryValid){
-                        Patients newPatient = new Patients(newPatientID, newFirstName, newLastName,
+                    if (patientIDValid && firstNameValid && lastNameValid && 
+                            ageValid && genderValid && conditionValid && categoryValid){
+                        if (newCategory == Patients.Category.INPATIENT){
+                            Inpatients newInpatient = new Inpatients(newPatientID, newFirstName, 
+                                        newLastName, newAge, newGender, newCondition, newCategory, 
+                                        newWardNumber, newBedNumber);
+                            System.out.println(newInpatient.NewInpatient(newPatientID, newFirstName, 
+                                    newLastName, newAge, newGender, newCondition, newCategory, 
+                                    newWardNumber, newBedNumber));
+                        } else {
+                            Patients newPatient = new Patients(newPatientID, newFirstName, newLastName,
                                             newAge, newGender, newCondition, newCategory);
-                        System.out.println(newPatient.NewPatient(newPatientID, newFirstName, 
-                                newLastName, newAge, newGender, newCondition, newCategory));
+                            System.out.println(newPatient.NewPatient(newPatientID, newFirstName, 
+                                    newLastName, newAge, newGender, newCondition, newCategory));
+                        }
+                        
                     }
                     break;
                 case 2:
@@ -218,6 +253,7 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                     System.out.println("=========================================");
                     System.out.println("==========DISPLAY ALL PATIENTS===========");
                     System.out.println("=========================================");
+                    
                     System.out.println(patients.DisplayAllPatients());
                     break;
                 case 6:

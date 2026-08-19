@@ -217,6 +217,10 @@ public class Patients {
                 report += "\nPatient Gender: " + obj.getString("Gender");
                 report += "\nPatient Condition: " + obj.getString("Medical Condition");
                 report += "\nPatient Category: " + obj.getString("Category");
+                if (obj.getString("Category").equals("INPATIENT")) {
+                    report += "\nWard Number: " + obj.getString("Ward Number");
+                    report += "\nBed Number: " + obj.getString("Bed Number");
+                }
             }
             
             return report;
