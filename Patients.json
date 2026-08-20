@@ -1,114 +1,22 @@
 [
     {
-        "Patient ID": "PT1",
-        "Category": "Inpatient",
-        "First Name": "John",
-        "Gender": "M",
-        "Last Name": "Van den berg",
-        "Medical Condition": "Hemriods",
-        "Age": 18
-    },
-    {
-        "Patient ID": "PT2",
-        "Category": "Emergency",
-        "First Name": "Matthew",
-        "Gender": "M",
-        "Last Name": "Johnstone",
-        "Medical Condition": "Heart Failure",
-        "Age": 19
-    },
-    {
-        "Patient ID": "PT03",
-        "Category": "Inpatient",
-        "First Name": "John",
-        "Gender": "M",
-        "Last Name": "Doe",
-        "Medical Condition": "Cancer",
-        "Age": 46
-    },
-    {
-        "Patient ID": "PT04",
+        "Bed Number": "B01",
+        "Patient ID": "PT01",
         "Category": "INPATIENT",
-        "First Name": "Jane",
-        "Gender": "F",
+        "First Name": "John",
+        "Gender": "M",
         "Last Name": "Doe",
-        "Medical Condition": "Astma",
+        "Medical Condition": "Covid-19",
+        "Ward Number": "W01",
         "Age": 34
     },
     {
-        "Patient ID": "PT05",
-        "Category": "INPATIENT",
+        "Patient ID": "PT12",
+        "Category": "OUTPATIENT",
         "First Name": "Jane",
         "Gender": "F",
         "Last Name": "Doe",
-        "Medical Condition": "cancer",
-        "Age": 20
-    },
-    {
-        "Patient ID": "PT06",
-        "Category": "INPATIENT",
-        "First Name": "Mary",
-        "Gender": "F",
-        "Last Name": "Jane",
-        "Medical Condition": "Vomiting",
-        "Age": 36
-    },
-    {
-        "Patient ID": "PT07",
-        "Category": "INPATIENT",
-        "First Name": "John",
-        "Gender": "M",
-        "Last Name": "Jane",
         "Medical Condition": "Flu",
-        "Age": 65
-    },
-    {
-        "Patient ID": "PT08",
-        "Category": "INPATIENT",
-        "First Name": "James",
-        "Gender": "M",
-        "Last Name": "Doakes",
-        "Medical Condition": "Flu",
-        "Age": 44
-    },
-    {
-        "Patient ID": "PT09",
-        "Category": "INPATIENT",
-        "First Name": "Mac",
-        "Gender": "M",
-        "Last Name": "Miller",
-        "Medical Condition": "Flu",
-        "Age": 29
-    },
-    {
-        "Patient ID": "PT10",
-        "Category": "INPATIENT",
-        "First Name": "Snoop",
-        "Gender": "M",
-        "Last Name": "Dog",
-        "Medical Condition": "Lung Cancer",
-        "Age": 40
-    },
-    {
-        "Bed Number": "B02",
-        "Patient ID": "PT11",
-        "Category": "INPATIENT",
-        "First Name": "Taylor",
-        "Gender": "F",
-        "Last Name": "Swift",
-        "Medical Condition": "Flu",
-        "Ward Number": "W01",
-        "Age": 30
-    },
-    {
-        "Bed Number": "B01",
-        "Patient ID": "PT12",
-        "Category": "INPATIENT",
-        "First Name": "John",
-        "Gender": "M",
-        "Last Name": "Daily",
-        "Medical Condition": "Cancer",
-        "Ward Number": "W01",
-        "Age": 60
+        "Age": 43
     }
 ]

@@ -14,7 +14,7 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Patients patients = new Patients();
+        Inpatients patients = new Inpatients();
         Beds beds = new Beds();
        
         
@@ -145,31 +145,43 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                     //Category
                     boolean categoryValid = false;
                     newCategory = null;
-                    while (newCategory == null){
+                    while (!categoryValid){
                         System.out.println("Category: ");
                         String categoryInput = scanner.nextLine();
                         try {
-                            newCategory = Patients.Category.valueOf(categoryInput.toUpperCase()); 
-                            categoryValid = true;
-                            if (newCategory == Patients.Category.INPATIENT){
-                                System.out.println("What ward must the patient be placed in: ");
-                                newWardNumber = scanner.nextLine();
-                                if (newWardNumber.matches("W\\d{2}")){
-                                    System.out.println(beds.ShowOpenBeds());
+                            Patients.Category tempCategory = Patients.Category.valueOf(categoryInput.toUpperCase());
+
+                            if (tempCategory == Patients.Category.INPATIENT){
+                                boolean wardValid = false;
+                                boolean bedValid = false;
+
+                                while (!wardValid){
+                                    System.out.println("What ward must the patient be placed in: ");
+                                    newWardNumber = scanner.nextLine();
+                                    if (newWardNumber.matches("W\\d{2}")){
+                                        wardValid = true;
+                                    } else {
+                                        System.out.println("Error! Ward number incorrectly formatted");
+                                    }
+                                }
+
+                                System.out.println(beds.ShowOpenBeds());
+                                while (!bedValid){
                                     System.out.println("What bed should the patient be assigned to:");
                                     newBedNumber = scanner.nextLine();
-                                    if (newBedNumber.matches("B\\d{2}") && beds.CheckBed(newBedNumber) == true){
+                                    if (newBedNumber.matches("B\\d{2}") && beds.CheckBed(newBedNumber)){
                                         beds.AssignBed(newBedNumber, newPatientID);
+                                        bedValid = true;
                                     } else {
                                         System.out.println("Error! Bed number incorrectly formatted "
-                                            + "or bed is already occupied");
-                                    } 
-                                } else {
-                                    System.out.println("Error! Ward number incorrectly formatted");
+                                        + "or bed is already occupied");
+                                    }
                                 }
                             }
-                           
-                           
+
+                            newCategory = tempCategory;
+                            categoryValid = true;
+
                         } catch (IllegalArgumentException e) {
                             System.out.println("Error: Category is not valid");
                         }

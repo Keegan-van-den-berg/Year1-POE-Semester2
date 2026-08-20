@@ -32,9 +32,33 @@ public class Inpatients extends Patients{
     
     @Override
     public String DisplayAllPatients(){
-        return super.DisplayAllPatients() + ""
-                + "\nWard Number: " + wardNumber + ""
-                + "\nBed Number: " + bedNumber;
+        String report = "";
+        try {
+            Path path = Path.of("Patients.json");
+            String content = Files.readString(path);
+            JSONArray patients = new JSONArray(content);
+
+            for (int i = 0; i < patients.length(); i++){
+                JSONObject obj = patients.getJSONObject(i);
+                String cat = obj.getString("Category");
+
+                report += "\n\n";
+                report += "Patient ID: " + obj.getString("Patient ID");
+                report += "\nPatient Name: " + obj.getString("First Name") + " " + obj.getString("Last Name");
+                report += "\nPatient Age: " + obj.getInt("Age");
+                report += "\nPatient Gender: " + obj.getString("Gender");
+                report += "\nPatient Condition: " + obj.getString("Medical Condition");
+                report += "\nPatient Category: " + cat;
+
+                if (cat.equalsIgnoreCase("INPATIENT")){
+                    report += "\nWard Number: " + obj.optString("Ward Number", "N/A");
+                    report += "\nBed Number: " + obj.optString("Bed Number", "N/A");
+                }
+            }
+            return report;
+        } catch (IOException e){
+            return "Error: Could not read Patients.json";
+        }
     }
     
     public String NewInpatient(String patientID, String firstName, 
