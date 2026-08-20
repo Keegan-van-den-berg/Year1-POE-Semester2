@@ -404,7 +404,7 @@ public class Van_Den_Berg_Keegan_Year1_Semester2_POE {
                          * TOTAL OCCUPIED BEDS
                          */
                         case 5:
-                            System.out.println("There is a total of " + beds.CheckForOpenBeds() + ""
+                            System.out.println("There is a total of " + (20 - beds.CheckForOpenBeds()) + ""
                                     + " taken beds");
                             break;
                             

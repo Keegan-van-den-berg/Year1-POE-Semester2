@@ -120,7 +120,7 @@ public class Beds {
         boolean noSpace = false;
         for (int i = 0; i < takenBeds.length; i++){
             for (int j = 0; j < takenBeds[i].length; j++){
-                if (takenBeds[i][j].equals("T")){
+                if (takenBeds[i][j].equals("O")){
                     openBedCount++;
                 }
             }
